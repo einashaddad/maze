@@ -68,10 +68,14 @@ def get_position():
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
                 # Change the x/y screen coordinates to grid coordinates
-                column = pos[0] // (width + margin)
-                row = pos[1] // (height + margin)
+                row = pos[0] // (width + margin)
+                column = pos[1] // (height + margin)
                 position = (row, column)
                 return position
+
+def draw_circle(point, color):
+    pygame.draw.circle(screen, color, (point[0]*width + width/2, point[1]*height+ height/2), 10)
+    pygame.display.flip()
 
 
 pygame.init()
@@ -87,6 +91,8 @@ black    = (   0,   0,   0)
 white    = ( 255, 255, 255)
 green    = (   0, 255,   0)
 blue     = (   0,   0, 255)
+red      = ( 255,   0,   0)
+yellow   = ( 255, 255,   0)
 
 screen=pygame.display.set_mode(size)
 
@@ -112,7 +118,14 @@ for row in range(len(graph)):
 pygame.display.flip()
 
 start = get_position()
-goal = get_position()
+draw_circle(start, red)
 
-print a_star(start, goal)
+goal = get_position()
+draw_circle(goal, red)
+    
+path = a_star(start, goal)
+
+for position in path:
+    draw_circle(position, yellow)
+    time.sleep(0.5)
 
