@@ -1,4 +1,6 @@
 from math import sqrt
+import pygame
+import time
 
 def a_star(start, goal):
     closedset = set()
@@ -59,14 +61,58 @@ def reconstruct_path(came_from, current_node):
         return p
     return [current_node]
 
+def get_position():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # User clicks the mouse. Get the position
+                pos = pygame.mouse.get_pos()
+                # Change the x/y screen coordinates to grid coordinates
+                column = pos[0] // (width + margin)
+                row = pos[1] // (height + margin)
+                position = (row, column)
+                return position
 
-if __name__ == '__main__':
-    graph = [[1, 1, 2, 1, 3],
-             [3, 1, 2, 1, 2],
-             [3, 1, 3, 3, 3]]
 
-    start = (0, 0) # (x, y)
-    goal = (4, 2) 
+pygame.init()
 
-    print a_star(start, goal)
+
+graph = [[1, 1, 2, 1, 3],
+         [3, 1, 2, 1, 2],
+         [3, 1, 3, 3, 3]]
+
+size = [255, 255]
+
+black    = (   0,   0,   0)
+white    = ( 255, 255, 255)
+green    = (   0, 255,   0)
+blue     = (   0,   0, 255)
+
+screen=pygame.display.set_mode(size)
+
+margin = 0
+height = size[1]/len(graph)
+width = size[0]/len(graph[0])
+
+for row in range(len(graph)):
+    for column in range(len(graph[0])):
+        color = white
+        if graph[row][column] == 1:
+            color = green
+        if graph[row][column] == 2:
+            color = blue
+        if graph[row][column] == 3:
+            color = white
+        pygame.draw.rect(screen,
+                         color,
+                         [(margin+width)*column+margin,
+                          (margin+height)*row+margin,
+                          width,
+                          height])
+pygame.display.flip()
+
+start = get_position()
+goal = get_position()
+
+print a_star(start, goal)
 
