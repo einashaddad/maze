@@ -83,7 +83,9 @@ pygame.init()
 
 graph = [[1, 1, 2, 1, 3],
          [3, 1, 2, 1, 2],
-         [3, 1, 3, 3, 3]]
+         [3, 1, 3, 3, 3],
+         [1, 2, 2, 2, 1],
+         [3, 1, 3, 2, 1]]
 
 size = [255, 255]
 
@@ -103,11 +105,11 @@ width = size[0]/len(graph[0])
 for row in range(len(graph)):
     for column in range(len(graph[0])):
         color = white
-        if graph[row][column] == 1:
-            color = green
         if graph[row][column] == 2:
-            color = blue
+            color = green
         if graph[row][column] == 3:
+            color = blue
+        if graph[row][column] == 1:
             color = white
         pygame.draw.rect(screen,
                          color,
@@ -129,3 +131,4 @@ for position in path:
     draw_circle(position, yellow)
     time.sleep(0.5)
 
+time.sleep(10)
